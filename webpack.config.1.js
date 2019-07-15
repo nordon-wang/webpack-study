@@ -7,18 +7,10 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'development',
-  // entry: './src/main.js',
-  entry:{
-    index: './src/index.js',
-    other: './src/other.js'
-  },
+  entry: './src/main.js',
   output: {
-    // path: path.resolve('./dist/')
-    // path: path.resolve(__dirname, './dist/')
     path: path.join(__dirname, 'dist'),
-    // filename:'bundle.js',
-    filename:'[name].js',
-    publicPath: '/'
+    filename:'bundle.js'
   },
   devtool: 'eval', //  开启source map
   devServer:{
@@ -29,19 +21,9 @@ module.exports = {
     // contentBase:'./src'
   },
   plugins:[
-    // new HtmlWebpackPlugin({
-    //   filename: 'index.html',
-    //   template: './src/index.html'
-    // }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
-      chunks:['index']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'other.html',
-      template: './src/other.html',
-      chunks:['other']
+      template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin([
@@ -50,11 +32,7 @@ module.exports = {
         to: 'static'
       }
     ]),
-    new webpack.BannerPlugin('王耀的版权信息'),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
+    new webpack.BannerPlugin('王耀的版权信息')
   ],
   module:{
     rules:[
@@ -102,13 +80,6 @@ module.exports = {
       {
         test:/\.(htm|html)$/i,
         loader: 'html-withimg-loader'
-      },
-      {
-        test: require.resolve('jquery'),
-        use:{
-          loader: 'expose-loader',
-          options: '$'
-        }
       }
     ]
   }
