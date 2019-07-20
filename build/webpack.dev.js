@@ -1,5 +1,6 @@
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.base')
+const webpack = require('webpack')
 
 module.exports = merge(baseConfig, {
   mode:'development',
@@ -10,5 +11,18 @@ module.exports = merge(baseConfig, {
     port:9527,
     compress: true,
     // contentBase:'./src'
+    proxy:{
+      '/api':{
+        target:''
+      }
+    }
   },
+  plugins:[
+    new webpack.DefinePlugin({
+      IS_DEV: 'true',
+      number: '1 + 1',
+      string: '"设置字符串的值"',
+      ENV: '"dev"'
+    })
+  ]
 })
