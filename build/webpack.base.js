@@ -3,21 +3,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   // mode: 'development',
-  // entry: './src/main.js',
-  entry:{
-    index: './src/index.js',
-    other: './src/other.js'
-  },
+  entry: './src/main.js',
+  // entry:{
+  //   main: './src/main.js',
+  //   other: './src/other.js'
+  // },
   output: {
     // path: path.resolve('./dist/')
     // path: path.resolve(__dirname, './dist/')
     path: path.join(__dirname, '..','./dist'),
     // filename:'bundle.js',
-    filename:'[name].js',
+    filename:'[name].bundle.js',
     publicPath: '/'
   },
   // devtool: 'cheap-module-eval-source-map', //  开启source map
@@ -29,20 +29,20 @@ module.exports = {
   //   // contentBase:'./src'
   // },
   plugins:[
-    // new HtmlWebpackPlugin({
-    //   filename: 'index.html',
-    //   template: './src/index.html'
-    // }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
-      chunks:['index']
+      template: './src/index.html'
     }),
-    new HtmlWebpackPlugin({
-      filename: 'other.html',
-      template: './src/other.html',
-      chunks:['other']
-    }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: './src/index.html',
+    //   chunks:['index']
+    // }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'other.html',
+    //   template: './src/other.html',
+    //   chunks:['other']
+    // }),
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { 
@@ -54,21 +54,29 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    })
+    }),
+    new MiniCssExtractPlugin({
+      filename:'[name]-[hash:6].css' // [name] 就是 placeholder 语法
+    }),
+    new webpack.IgnorePlugin(/\.\/locale/, /moment/)
   ],
   module:{
+    noParse: /jquery/,
     rules:[
       {
         test:/\.css$/,
-        use:['style-loader', 'css-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader',  'postcss-loader',]
+        // use:['style-loader', 'css-loader',  'postcss-loader',]
       },
       {
         test:/\.less$/,
-        use:['style-loader', 'css-loader', 'less-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader']
+        // use:['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
       },
       {
         test:/\.scss$/,
-        use:['style-loader', 'css-loader', 'sass-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        // use:['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
       // {
       //   test: /\.(png|jpg|gif)$/,
@@ -97,7 +105,9 @@ module.exports = {
           //   presets: ['@babel/env'],
           //   plugins: ['@babel/plugin-proposal-class-properties']
           // }
-        }
+        },
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src')
       },
       {
         test:/\.(htm|html)$/i,

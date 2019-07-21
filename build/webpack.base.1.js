@@ -6,28 +6,28 @@ const webpack = require('webpack')
 
 
 module.exports = {
-  mode: 'development',
-  entry: './src/main.js',
-  // entry:{
-  //   index: './src/index.js',
-  //   other: './src/other.js'
-  // },
+  // mode: 'development',
+  // entry: './src/main.js',
+  entry:{
+    index: './src/index.js',
+    other: './src/other.js'
+  },
   output: {
     // path: path.resolve('./dist/')
     // path: path.resolve(__dirname, './dist/')
-    path: path.join(__dirname, 'dist'),
-    filename:'bundle.js',
-    // filename:'[name].js',
+    path: path.join(__dirname, '..','./dist'),
+    // filename:'bundle.js',
+    filename:'[name].js',
     publicPath: '/'
   },
-  devtool: 'eval', //  开启source map
-  devServer:{
-    hot:true,
-    open: true,
-    port:9527,
-    compress: true,
-    // contentBase:'./src'
-  },
+  // devtool: 'cheap-module-eval-source-map', //  开启source map
+  // devServer:{
+  //   hot:true,
+  //   open: true,
+  //   port:9527,
+  //   compress: true,
+  //   // contentBase:'./src'
+  // },
   plugins:[
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
@@ -38,15 +38,15 @@ module.exports = {
       template: './src/index.html',
       chunks:['index']
     }),
-    // new HtmlWebpackPlugin({
-    //   filename: 'other.html',
-    //   template: './src/other.html',
-    //   chunks:['other']
-    // }),
+    new HtmlWebpackPlugin({
+      filename: 'other.html',
+      template: './src/other.html',
+      chunks:['other']
+    }),
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { 
-        from: path.join(__dirname, 'static'),
+        from: path.join(__dirname, '..', 'static'),
         to: 'static'
       }
     ]),

@@ -3,41 +3,37 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'development',
+  // mode: 'development',
   entry: './src/main.js',
-  // entry:{
-  //   index: './src/index.js',
-  //   other: './src/other.js'
-  // },
   output: {
     // path: path.resolve('./dist/')
     // path: path.resolve(__dirname, './dist/')
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '..','./dist'),
     filename:'bundle.js',
     // filename:'[name].js',
     publicPath: '/'
   },
-  devtool: 'eval', //  开启source map
-  devServer:{
-    hot:true,
-    open: true,
-    port:9527,
-    compress: true,
-    // contentBase:'./src'
-  },
+  // devtool: 'cheap-module-eval-source-map', //  开启source map
+  // devServer:{
+  //   hot:true,
+  //   open: true,
+  //   port:9527,
+  //   compress: true,
+  //   // contentBase:'./src'
+  // },
   plugins:[
-    // new HtmlWebpackPlugin({
-    //   filename: 'index.html',
-    //   template: './src/index.html'
-    // }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
-      chunks:['index']
+      template: './src/index.html'
     }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: './src/index.html',
+    //   chunks:['index']
+    // }),
     // new HtmlWebpackPlugin({
     //   filename: 'other.html',
     //   template: './src/other.html',
@@ -46,7 +42,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { 
-        from: path.join(__dirname, 'static'),
+        from: path.join(__dirname, '..', 'static'),
         to: 'static'
       }
     ]),
@@ -54,21 +50,27 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
+    }),
+    new MiniCssExtractPlugin({
+      filename:'[name]-[hash:6].css' // [name] 就是 placeholder 语法
     })
   ],
   module:{
     rules:[
       {
         test:/\.css$/,
-        use:['style-loader', 'css-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader',  'postcss-loader',]
+        // use:['style-loader', 'css-loader',  'postcss-loader',]
       },
       {
         test:/\.less$/,
-        use:['style-loader', 'css-loader', 'less-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader']
+        // use:['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
       },
       {
         test:/\.scss$/,
-        use:['style-loader', 'css-loader', 'sass-loader']
+        use:[MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        // use:['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
       // {
       //   test: /\.(png|jpg|gif)$/,
