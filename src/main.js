@@ -1,37 +1,11 @@
-// 将VUE项目中的库抽取成DLL
-import Vue from 'vue/dist/vue'
-import VueRouter from 'vue-router'
+// 将React项目中的库抽取成DLL
 
-Vue.use(VueRouter)
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-const homeComponent = {
-  template:'<h3>homeComponent page....</h3>'
-}
+let reactDom = React.createElement('h1', null, '我的react')
 
-const newsComponent = {
-  template:'<h3>newsComponent page....</h3>'
-}
-
-const router = new VueRouter({
-  routes:[
-    {
-      path:"/home",
-      component:homeComponent
-    },
-    {
-      path:"/news",
-      component:newsComponent
-    }
-  ]
-})
-
-
-new Vue({
-  el:'#vue-app',
-  data(){
-    return {
-      msg:'vue msg'
-    }
-  },
-  router
-})
+ReactDOM.render(
+  reactDom,
+  document.getElementById('app')
+);

@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
 
 module.exports = {
   // mode: 'development',
@@ -33,6 +34,10 @@ module.exports = {
       filename: 'index.html',
       template: './src/index.html'
     }),
+    new AddAssetHtmlWebpackPlugin({
+      // filepath: path.resolve(__dirname, '../dist/vue_dll.js')
+      filepath: path.resolve(__dirname, '../dist/react_dll.js')
+    }),
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
     //   template: './src/index.html',
@@ -43,7 +48,7 @@ module.exports = {
     //   template: './src/other.html',
     //   chunks:['other']
     // }),
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new CopyPlugin([
       { 
         from: path.join(__dirname, '..', 'static'),
@@ -58,7 +63,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename:'[name]-[hash:6].css' // [name] 就是 placeholder 语法
     }),
-    new webpack.IgnorePlugin(/\.\/locale/, /moment/)
+    new webpack.IgnorePlugin(/\.\/locale/, /moment/),
+    new webpack.DllReferencePlugin({
+      manifest: path.resolve(__dirname, '../dist/manifest.json'),
+    })
   ],
   module:{
     noParse: /jquery/,
