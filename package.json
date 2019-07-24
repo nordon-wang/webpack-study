@@ -60,6 +60,8 @@
     "html-withimg-loader": "^0.1.16",
     "jquery": "^3.4.1",
     "math": "0.0.3",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.7"
   }
 }
