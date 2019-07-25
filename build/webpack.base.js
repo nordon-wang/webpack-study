@@ -18,7 +18,7 @@ module.exports = {
     // path: path.resolve(__dirname, './dist/')
     path: path.join(__dirname, '..','./dist'),
     // filename:'bundle.js',
-    filename:'[name].bundle.js',
+    filename:'[name]-[contentHash:8].bundle.js',
     publicPath: '/'
   },
   // devtool: 'cheap-module-eval-source-map', //  开启source map
@@ -33,10 +33,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html'
-    }),
-    new AddAssetHtmlWebpackPlugin({
-      // filepath: path.resolve(__dirname, '../dist/vue_dll.js')
-      filepath: path.resolve(__dirname, '../dist/react_dll.js')
     }),
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
@@ -64,9 +60,13 @@ module.exports = {
       filename:'[name]-[hash:6].css' // [name] 就是 placeholder 语法
     }),
     new webpack.IgnorePlugin(/\.\/locale/, /moment/),
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(__dirname, '../dist/manifest.json'),
-    })
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.resolve(__dirname, '../dist/manifest.json'),
+    // }),
+    // new AddAssetHtmlWebpackPlugin({
+    //   // filepath: path.resolve(__dirname, '../dist/vue_dll.js')
+    //   filepath: path.resolve(__dirname, '../dist/react_dll.js')
+    // }),
   ],
   module:{
     noParse: /jquery/,

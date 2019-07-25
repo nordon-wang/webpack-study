@@ -7,9 +7,10 @@ module.exports = merge(baseConfig, {
   devtool: 'cheap-module-eval-source-map', //  开启source map
   devServer:{
     hot:true,
-    open: true,
+    // open: true,
     port:9527,
     compress: true,
+    host:'0.0.0.0',
     // contentBase:'./src'
     proxy:{
       '/api':{

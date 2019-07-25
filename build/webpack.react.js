@@ -5,7 +5,7 @@ const webpack = require('webpack')
 module.exports = {
   mode: 'production',
   entry:{
-    react: [ 
+    react: [
       'react',
       'react-dom'
     ]
